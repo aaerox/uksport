@@ -1,5 +1,5 @@
 {
-  "name": "example",
+  "name": "UKSport",
   "version": "0.0.0",
   "homepage": "",
   "authors": [
@@ -11,9 +11,7 @@
   "ignore": [
     "**/.*",
     "node_modules",
-    "bower_components",
-    "test",
-    "tests"
+    "bower_components"
   ],
   "dependencies": {
     "jquery": "~1.10.2"
