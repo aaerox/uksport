@@ -14,7 +14,6 @@ keystone.init({
 	'name': 'UK Sport',
 	'brand': 'UK Sport',
 	
-	'less': 'public',
 	'static': 'public',
 	'favicon': 'public/favicon.ico',
 	
@@ -55,9 +54,7 @@ keystone.set('routes', require('./routes'));
 // Configure the navigation bar in Keystone's Admin UI
 
 keystone.set('nav', {
-	'posts': ['posts', 'post-categories'],
-	'galleries': 'galleries',
-	'enquiries': 'enquiries',
+	'pages': ['pages-home'],
 	'users': 'users'
 });
 
