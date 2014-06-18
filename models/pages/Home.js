@@ -6,7 +6,7 @@ var keystone = require('keystone'),
  * ==========
  */
 
-var Home = new keystone.List('PageHome', {
+var Home = new keystone.Page('PageHome', {
 	label: "Home",
 	path: "pages-home",
 	map: { name: 'title' },

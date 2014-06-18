@@ -4,6 +4,7 @@ require('dotenv').load();
 
 // Require keystone
 var keystone = require('keystone');
+var keystonePages = require('./keystone-pages');
 
 // Initialise Keystone with your project's configuration.
 // See http://keystonejs.com/guide/config for available options
@@ -28,6 +29,9 @@ keystone.init({
 	'cookie secret': '.,OTT||;Dq@,54W_z`_f)E,;"K0="/t-S~)X!O<-PCO~/ZO2[=m5J&&6X8|3(a4('
 	
 });
+
+// Load our page functionality
+keystonePages.register(keystone);
 
 // Load your project's Models
 
