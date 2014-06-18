@@ -8,18 +8,12 @@ var keystone = require('keystone'),
 
 var Home = new keystone.Page('PageHome', {
 	label: "Home",
-	path: "pages-home",
-	map: { name: 'title' },
+	path: "home",
 	autokey: { path: 'slug', from: 'title', unique: true }
-});
+}, 'home', true);
 
 Home.add({
-	banner: {
-		title: { type: String, required: true },
-		subtitle: { type: String, required: true },
-		image: { type: Types.CloudinaryImage, required: true },
-		blurb: { type: String, require: false }
-	},
+	banner: require('../partials/Banner'),
 	whatWeDo: {
 		title: { type: String, required: true },
 		copy: { type: Types.Html, wysiwyg: true, required: true }

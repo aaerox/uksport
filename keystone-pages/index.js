@@ -13,23 +13,7 @@ var KeystonePages = function () {
  * Handles page related server requests
  */
 KeystonePages.prototype.middleware = function (req, res, next) {
-	// Dealing with lists?
-	if (req.params && req.params.list) {
-		// Is it actually a page?
-		var page = this.pages[req.params.list];
-
-		// Find the page we're using
-		page.model.findOne({}, function (err, singlePage) {
-			if (err)
-				return next(err);
-
-			// Redirect to the edit page
-			res.redirect('/keystone/' + page.path + '/' + page.id);
-		});
-	}
-	else {
-		next();
-	}
+	next();
 };
 
 
@@ -46,13 +30,13 @@ KeystonePages.prototype.register = function (keystone) {
 	// Register our middleware
 	this.keystone.pre('routes', this.middleware);
 
-	// Hook the rendering function so that we can use our own CMS templates
-	var self = this;
-	this._render = this.keystone.render.bind(this.keystone);
+	// Hook the routes function so that we can override CMS routes
+	this._routes = this.keystone.routes.bind(this.keystone);
+	this.keystone.routes = this.routes.bind(this);
 
-	this.keystone.render = function (req, res, view, ext) {
-		return self.render(req, res, view, ext);
-	};
+	// Hook the rendering function so that we can use our own CMS templates
+	this._render = this.keystone.render.bind(this.keystone);
+	this.keystone.render = this.render.bind(this);
 };
 
 
@@ -62,6 +46,49 @@ KeystonePages.prototype.register = function (keystone) {
 KeystonePages.prototype.registerPage = function (page) {
 	// Add it to our list of pages
 	this.pages[page.path] = page;
+};
+
+
+/**
+ * Registers routes used for the keystone CMS
+ */
+KeystonePages.prototype.routes = function (app) {
+	var initPage = function(page) {
+		return function(req, res, next) {
+			req.list = page;
+
+			// Find the page we're using
+			page.model.findOne({}, function (err, singlePage) {
+				if (err)
+					return next(err);
+				if (singlePage === null)
+					return next("No data set for page '" + page.path + "'.");
+
+				// Set our item parameter
+				req.params.item = singlePage.id;
+				next();
+			});
+		};
+	};
+
+	// Add routes for each of our pages
+	for (var path in this.pages) {
+		var type = this.pages[path];
+
+		// CMS editing route
+		app.all('/keystone/pages/' + type.path, initPage(type), require('keystone/routes/views/item'));
+
+		// Route each individual page
+		type.model.find({}, function (err, pages) {
+			for (var i=0; i < pages.length; ++i) {
+				var page = pages[i];
+
+				debugger;
+			}
+		});
+	}
+
+	return this._routes(app);
 };
 
 
