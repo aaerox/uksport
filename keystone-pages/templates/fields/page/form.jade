@@ -1,0 +1,25 @@
+if !field.isValid
+	.alert.alert-danger Warning: Relationship field <strong>#{field.path}</strong> refers to an invalid list: <strong>#{field.options.ref}</strong>
+else
+	.field.type-page(data-field-type=field.type, data-field-path=field.path, data-field-collapse=field.collapse ? 'true' : false, data-field-depends-on=field.dependsOn, data-field-noedit=field.noedit ? 'true' : 'false', data-field-value=item.get(field.path))
+		label.field-label= field.label
+		.field-ui
+			.field-message
+			if field.noedit
+				if item.get(field.path)
+					a(href='/keystone/' + 'refList.path' + '/' + item.get(field.path), data-ref-path='refList.path').ui-related-item= item.get(field.path)
+				else
+					.help-block (not set)
+			else
+				input(type='hidden',
+					name=field.path,
+					id='field_' + field.path,
+					value=item.get(field.path),
+					data-ref-many=null,
+					data-ref-path='refList.path',
+					data-ref-filters=field.filters,
+					data-ref-singular='page').ui-select2-ref
+				if item.get(field.path)
+					a(href='/keystone/' + 'refpath.path' + '/' + item.get(field.path), style='margin-left: 10px;').btn.btn-link.btn-goto-linked-item view page
+			if field.note
+				.field-note!= field.note

@@ -4,28 +4,23 @@ var keystone = require('keystone'),
 	keystonePages = require('./');
 	
 
-var Page = function (key, options, template, singular) {
-	// Enforce singular options
-	if (singular) {
-		options["nocreate"] = options["nodelete"] = true;
-	}
+var Page = function (key, options, template) {
 
 	List.prototype.constructor.call(this, key, options);
 
 	// Add standard page values
-	this.add({
+	this.add('Page', {
 		page: {
-			title: { type: Types.Text, required: true, initial: true },
-			path: { type: Types.Text, required: true, initial: true },
-			parent: { type: Types.Relationship, ref: 'Page', initial: true },
+			title: { type: Types.Text, required: true, initial: true, label: 'Title' },
+			path: { type: Types.Text, required: true, initial: true, label: 'Path' },
+			parent: { type: Types.Page, initial: true, label: 'Parent' },
 			templatePath: { type: Types.Text, required: true, hidden: true, default: template }
 		}
 	});
 
-	keystonePages.registerPage(this);
+	keystonePages.router.registerPageType(this);
 	
 	this.isPage = true;
-	this.isSingularPage = singular;
 
 	// We have to reset our constructor to fool keystone
 	this.constructor = List;

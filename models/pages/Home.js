@@ -10,13 +10,14 @@ var Home = new keystone.Page('PageHome', {
 	label: "Home",
 	path: "home",
 	autokey: { path: 'slug', from: 'title', unique: true }
-}, 'home', true);
+}, 'home');
 
-Home.add({
-	banner: require('../partials/Banner'),
+require('../partials/Banner')(Home);
+
+Home.add('What We Do', {
 	whatWeDo: {
-		title: { type: String, required: true },
-		copy: { type: Types.Html, wysiwyg: true, required: true }
+		title: { type: String, required: true, label: 'Title' },
+		copy: { type: Types.Html, wysiwyg: true, required: true, label: 'Copy' }
 	}
 });
 

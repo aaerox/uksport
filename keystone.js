@@ -33,8 +33,7 @@ keystone.init({
 // Load our page functionality
 keystonePages.register(keystone);
 
-// Load your project's Models
-
+// Load our project's Models
 keystone.import('models');
 
 // Setup common locals for your templates. The following are required for the
@@ -61,6 +60,16 @@ keystone.set('nav', {
 	'users': 'users'
 });
 
-// Start Keystone to connect to your database and initialise the web server
+// Build our page data
+keystonePages.router.buildPageIndex(function (err) {
+	if (err) {
+		console.log('Error building page index:');
+		console.log(err);
+		return;
+	}
+});
 
+// Start Keystone to connect to your database and initialise the web server
 keystone.start();
+
+

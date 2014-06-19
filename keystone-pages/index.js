@@ -1,4 +1,5 @@
-var fs = require('fs');
+var fs = require('fs'),
+	PageRouter = require('./pagerouter.js');
 
 
 var KeystonePages = function () {
@@ -10,25 +11,18 @@ var KeystonePages = function () {
 
 
 /**
- * Handles page related server requests
- */
-KeystonePages.prototype.middleware = function (req, res, next) {
-	next();
-};
-
-
-/**
  * Registers page related middleware and event handlers
  */
 KeystonePages.prototype.register = function (keystone) {
 	this.keystone = keystone;
-	this.keystone.pages = {};
+	this.router = new PageRouter(keystone);
 
-	// Export our classes
+	// Export our classes and types
 	this.keystone.Page = this.Page;
+	this.keystone.Field.Types.Page = require('./fieldpage');
 
 	// Register our middleware
-	this.keystone.pre('routes', this.middleware);
+	this.keystone.pre('routes', this.router.middleware.bind(this.router));
 
 	// Hook the routes function so that we can override CMS routes
 	this._routes = this.keystone.routes.bind(this.keystone);
@@ -37,15 +31,6 @@ KeystonePages.prototype.register = function (keystone) {
 	// Hook the rendering function so that we can use our own CMS templates
 	this._render = this.keystone.render.bind(this.keystone);
 	this.keystone.render = this.render.bind(this);
-};
-
-
-/**
- * Registers a type of page with keystone
- */
-KeystonePages.prototype.registerPage = function (page) {
-	// Add it to our list of pages
-	this.pages[page.path] = page;
 };
 
 
@@ -71,12 +56,15 @@ KeystonePages.prototype.routes = function (app) {
 		};
 	};
 
+	// CMS page editor
+	//app.all('/keystone/page', initPage(type), require('keystone/routes/views/page'));
+
 	// Add routes for each of our pages
 	for (var path in this.pages) {
 		var type = this.pages[path];
 
 		// CMS editing route
-		app.all('/keystone/pages/' + type.path, initPage(type), require('keystone/routes/views/item'));
+		app.all('/keystone/page/' + type.path, initPage(type), require('keystone/routes/views/item'));
 
 		// Route each individual page
 		type.model.find({}, function (err, pages) {
