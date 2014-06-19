@@ -1,0 +1,21 @@
+/*----------------------------------------------------- 
+    Standard site breakpoints
+------------------------------------------------------*/
+
+$size-mobile: 480px;
+$size-tablet: 768px;
+$size-desktop: 980px;
+
+$mobile-and-above: new-breakpoint(min-width $size-mobile 6);
+$above-mobile: new-breakpoint(min-width ($size-mobile + 1px) 6);
+$tablet-and-above: new-breakpoint(min-width $size-tablet 6);
+$above-tablet: new-breakpoint(min-width ($size-tablet + 1px) 6);
+$desktop-only: new-breakpoint(min-width $size-desktop 6);
+$above-desktop: new-breakpoint(min-width ($size-desktop + 1px) 6);
+
+$mobile-small-only: new-breakpoint(max-width $size-mobile 6);
+$mobile-only: new-breakpoint(max-width $size-mobile 6);
+$tablet-and-below: new-breakpoint(max-width $size-tablet 6);
+$below-tablet: new-breakpoint(max-width ($size-tablet - 1px) 6);
+$desktop-and-below: new-breakpoint(max-width $size-desktop 6);
+$below-desktop: new-breakpoint(max-width ($size-desktop - 1px) 6);

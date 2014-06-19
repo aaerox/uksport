@@ -21,5 +21,4 @@ block content
 				.nav-section
 					h4 Other
 					each list in orphanedLists
-						if !list.isPage
-							h3: a(href='/keystone/' + list.path)= list.label
+						h3: a(href='/keystone/' + list.path)= list.label

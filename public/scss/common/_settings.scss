@@ -1,0 +1,36 @@
+/*----------------------------------------------------- 
+    Colours
+------------------------------------------------------*/
+
+// Typography colour
+$uk-text: #333333;
+
+// Primary colour palette
+$uk-white: #ffffff;
+$uk-black: #333333;
+
+$uk-blue: #164785;
+
+
+
+/*----------------------------------------------------- 
+    Transitions
+------------------------------------------------------*/
+
+// Standard transition speeds
+$trans-faster: 0.125s;
+$trans-fast: 0.2s;
+$trans-slow: 0.3s;
+$trans-slower: 0.5s;
+
+
+/*----------------------------------------------------- 
+    Layout
+------------------------------------------------------*/
+
+// Padding for collapsed elements which would otherwise
+// touch the screen edges when collapsed.
+$collapse-padding: 10px;
+
+// Padding between typical content elements
+$element-spacing: 30px;

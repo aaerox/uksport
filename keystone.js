@@ -47,6 +47,10 @@ keystone.set('locals', {
 	editable: keystone.content.editable
 });
 
+// Don't cache jade templates if we're developing
+if (process.env.NODE_ENV == "development")
+	keystone.set('view cache', false);
+
 // Load your project's Routes
 
 keystone.set('routes', require('./routes'));

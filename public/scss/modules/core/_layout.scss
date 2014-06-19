@@ -1,0 +1,62 @@
+/*----------------------------------------------------- 
+    Mixins
+------------------------------------------------------*/
+// Easy layout collapse mixin
+@mixin collapse-column($tablet: true, $mobile: true) {
+	@if $tablet == true  {
+		@if $mobile == false {
+			@include media(max-width $size-tablet min-width ($size-mobile + 1px)) {
+				@include span-columns(12 of 12);
+				@include omega();
+			}
+		} @else {
+			@include media($tablet-and-below) {
+				@include span-columns(12 of 12);
+				@include omega();
+			}
+		}
+	} @else if $mobile == true {
+		@include media($mobile-only) {
+			@include span-columns(12 of 12);
+			@include omega();
+		}
+	}
+}
+
+// Easy collapse padding mixin
+@mixin collapse-padding($tablet: true, $mobile: true, $desktop: false) {
+	@if $desktop == true {
+		@include media(max-width $size-desktop min-width ($size-tablet + 1px)) {
+			padding-left: $collapse-padding;
+			padding-right: $collapse-padding;
+		}
+	}
+
+	@if $tablet == true  {
+		@if $mobile == false {
+			@include media(max-width $size-tablet min-width ($size-mobile + 1px)) {
+				padding-left: $collapse-padding;
+				padding-right: $collapse-padding;
+			}
+		} @else {
+			@include media($tablet-and-below) {
+				padding-left: $collapse-padding;
+				padding-right: $collapse-padding;
+			}
+		}
+	} @else if $mobile == true {
+		@include media($mobile-only) {
+			padding-left: $collapse-padding;
+			padding-right: $collapse-padding;
+		}
+	}
+}
+
+
+/*----------------------------------------------------- 
+    Styling
+------------------------------------------------------*/
+// Generic grid container
+.container {
+	@include outer-container();
+}

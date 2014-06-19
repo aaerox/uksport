@@ -1,0 +1,24 @@
+.navigation {
+	display: block;
+	width: 100%;
+	height: 50px;
+
+	.nav {
+		position: relative;
+		display: table;
+		@include outer-container();
+
+		margin-top: 0px;
+		margin-bottom: 0px;
+		padding-left: 0px;
+
+		li {
+			display: table-cell;
+			text-align: center;
+			list-style-type: none;
+
+			color: $uk-white;
+			border-left: 1px solid $uk-black;
+		}
+	}
+}

@@ -1,5 +1,7 @@
-var fs = require('fs'),
-	async = require('async');
+var _ = require('underscore'),
+	fs = require('fs'),
+	async = require('async')
+	keystone = require('keystone');
 
 
 var PageRouter = function (keystone) {
@@ -213,6 +215,18 @@ PageRouter.prototype.buildPageIndex = function (done) {
 			type.pages.forEach(resolvePage);
 		});
 
+		// Populate our path tree with parents
+		function setParent(node, parent) {
+			node.parent = parent;
+
+			for (var path in node.tree) {
+				setParent(node.tree[path], node);
+			}
+		}
+
+		if ("" in pagePathTree)
+			setParent(pagePathTree[""], null);
+
 		// All good!
 		self.pageIdMap = pageIdMap;
 		self.pageTypeMap = pageTypeMap;
@@ -242,17 +256,107 @@ PageRouter.prototype.routes = function (app) {
  * Renders the CMS page editor view for a specified node
  */
 PageRouter.prototype.renderPageEditor = function (node, req, res) {
-	// Import the normal keystone item route
-	var route = require('keystone/routes/views/item');
+	var item = node.page;
+	var list = node.type;
 
-	// Set up the environment
-	req.list = node.type;
-	req.params = {
-		item: node.page.id
+	if (!item) {
+		req.flash('error', 'Page could not be edited.');
+		return res.redirect('/keystone/');
+	}
+	
+	var viewLocals = {
+		validationErrors: {},
+		pageTypes: this.pageTypes
+	};
+	
+	
+	function getPath(node) {
+		var path = node.parent === null ? "" : getPath(node.parent);
+		var nodePath = node.page.page.path;
+
+		if (nodePath.lastIndexOf('/', 0) !== 0 && path !== "/")
+			nodePath = "/" + nodePath;
+
+		return path + nodePath;
+	}
+
+	// Build our page path drilldown
+	var pagePath = [];
+	var pathNode = node.parent;
+
+	while (pathNode) {
+		pagePath.unshift({
+			href: '/keystone/page' + getPath(pathNode),
+			title: pathNode.page.page.title
+		});
+
+		pathNode = pathNode.parent;
+	}
+
+	viewLocals.pagePath = pagePath;
+
+	// Build our page child list
+	var pageChildren = [];
+
+	for (var path in node.tree) {
+		var child = node.tree[path];
+
+		pageChildren.push({
+			href: '/keystone/page' + getPath(child),
+			title: child.page.page.title
+		});
 	};
 
-	// Render!
-	route(req, res);
+	viewLocals.pageChildren = pageChildren;
+
+	// Render our view safely
+	var renderView = function() {
+		
+		var	loadFormFieldTemplates = function(cb){
+			var onlyFields = function(item) { return item.type === 'field'; };
+			var compile = function(item, callback) { item.field.compile('form',callback); };
+			async.eachSeries(list.uiElements.filter(onlyFields), compile , cb);
+		};
+		
+		
+		/** Render View */
+		
+		async.parallel([
+			loadFormFieldTemplates
+		], function(err) {
+			
+			// TODO: Handle err
+			
+			keystone.render(req, res, 'page', _.extend(viewLocals, {
+				section: keystone.nav.by.list[list.key] || {},
+				title: 'Keystone: ' + list.singular + ': ' + list.getDocumentName(item),
+				page: 'item',
+				list: list,
+				item: item
+			}));
+			
+		});
+	};
+	
+	if (req.method === 'POST' && req.body.action === 'updateItem' && !list.get('noedit')) {
+		
+		if (!keystone.security.csrf.validate(req)) {
+			req.flash('error', 'There was a problem with your request, please try again.');
+			return renderView();
+		}
+		
+		item.getUpdateHandler(req).process(req.body, { flashErrors: true, logErrors: true }, function(err) {
+			if (err) {
+				return renderView();
+			}
+
+			req.flash('success', 'Your changes have been saved.');
+			return res.redirect(req.path);
+		});
+		
+	} else {
+		renderView();
+	}
 };
 
 

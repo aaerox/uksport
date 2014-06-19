@@ -37,6 +37,9 @@ KeystonePages.prototype.register = function (keystone) {
  */
 KeystonePages.prototype.routes = function (app) {
 	
+	// Page creation route
+	app.all('/keystone/page-create/', require('./routes/pagecreate'));
+
 	return this._routes(app);
 };
 

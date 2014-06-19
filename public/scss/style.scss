@@ -12,6 +12,9 @@
 /*----------------------------------------------------- 
     Global styling
 ------------------------------------------------------*/
+@import "common/settings";
+@import "common/breakpoints";
+@import "common/grid";
 
 
 /*----------------------------------------------------- 
@@ -24,7 +27,7 @@
 ------------------------------------------------------*/
 @import "modules/core/layout";
 @import "modules/core/header";
-@import "modules/core/footer";
+@import "modules/core/navigation";
 
 
 /*----------------------------------------------------- 
