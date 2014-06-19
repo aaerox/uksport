@@ -14,6 +14,7 @@ var Page = function (key, options, template) {
 			title: { type: Types.Text, required: true, initial: true, label: 'Title' },
 			path: { type: Types.Text, required: true, initial: true, label: 'Path' },
 			parent: { type: Types.Page, initial: true, label: 'Parent' },
+			isNav: { type: Types.Boolean, label: "Navigatable" },
 			templatePath: { type: Types.Text, required: true, hidden: true, default: template }
 		}
 	});

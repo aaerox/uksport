@@ -5,8 +5,6 @@ var fs = require('fs'),
 var KeystonePages = function () {
 	this.keystone = null;
 	this.templatePathCache = {};
-
-	this.pages = {};
 };
 
 
@@ -38,44 +36,7 @@ KeystonePages.prototype.register = function (keystone) {
  * Registers routes used for the keystone CMS
  */
 KeystonePages.prototype.routes = function (app) {
-	var initPage = function(page) {
-		return function(req, res, next) {
-			req.list = page;
-
-			// Find the page we're using
-			page.model.findOne({}, function (err, singlePage) {
-				if (err)
-					return next(err);
-				if (singlePage === null)
-					return next("No data set for page '" + page.path + "'.");
-
-				// Set our item parameter
-				req.params.item = singlePage.id;
-				next();
-			});
-		};
-	};
-
-	// CMS page editor
-	//app.all('/keystone/page', initPage(type), require('keystone/routes/views/page'));
-
-	// Add routes for each of our pages
-	for (var path in this.pages) {
-		var type = this.pages[path];
-
-		// CMS editing route
-		app.all('/keystone/page/' + type.path, initPage(type), require('keystone/routes/views/item'));
-
-		// Route each individual page
-		type.model.find({}, function (err, pages) {
-			for (var i=0; i < pages.length; ++i) {
-				var page = pages[i];
-
-				debugger;
-			}
-		});
-	}
-
+	
 	return this._routes(app);
 };
 

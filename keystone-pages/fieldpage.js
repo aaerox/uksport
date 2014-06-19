@@ -15,9 +15,8 @@ var _ = require('underscore'),
  */
 
 function page(list, path, options) {
-
-	this.filters = options.filters;
-	this._nativeType = keystone.mongoose.Schema.Types.ObjectId;
+	// TODO: implement filtering, hard-coded as disabled for now
+	options.nofilter = true;
 
 	options.templateDir = __dirname + '/templates/fields/page/';
 
@@ -38,30 +37,27 @@ util.inherits(page, super_);
  * @api public
  */
 
-/*page.prototype.addToSchema = function() {
+page.prototype.addToSchema = function() {
 
-	var field = this,
-		schema = this.list.schema;
+	var schema = this.list.schema;
 
-	this.paths = {
-		refList: this.options.refListPath || this._path.append('RefList')
+	var paths = this.paths = {
+		ref: this._path.append('.ref'),
+		refType: this._path.append('.refType')
 	};
 
-	var def = {
-		type: this._nativeType,
-		ref: this.options.ref
-	};
+	schema.nested[this.path] = true;
+	schema.add({
+		ref: keystone.mongoose.Schema.Types.ObjectId,
+		refType: String
+	}, this.path + '.');
 
-	schema.path(this.path, def);
-
-	schema.virtual(this.paths.refList).get(function () {
-		return keystone.list(field.options.ref);
+	schema.virtual('isValid').get(function () {
+		return this.ref !== undefined;
 	});
 
-
 	this.bindUnderscoreMethods();
-
-};*/
+};
 
 /**
  * Validates that a value for this field has been provided in a data object
@@ -122,46 +118,6 @@ Object.defineProperty(page.prototype, 'isValid', {
 		return true;//keystone.list(this.options.ref) ? true : false;
 	}
 });
-
-
-/**
- * Whether the field has any filters defined
- *
- * @api public
- */
-
-Object.defineProperty(page.prototype, 'hasFilters', {
-	get: function() {
-		return (this.filters && _.keys(this.filters).length);
-	}
-});
-
-
-/**
- * Adds page filters to a query
- *
- * @api public
- */
-
-page.prototype.addFilters = function(query, item) {
-
-	_.each(this.filters, function(filters, path) {
-		if (!utils.isObject(filters)) {
-			filters = { equals: filters };
-		}
-		query.where(path);
-		_.each(filters, function(value, method) {
-			if ('string' === typeof value && value.substr(0,1) === ':') {
-				if (!item) {
-					return;
-				}
-				value = item.get(value.substr(1));
-			}
-			query[method](value);
-		});
-	});
-
-};
 
 
 /*!

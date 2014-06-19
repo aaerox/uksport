@@ -8,6 +8,7 @@ var PageRouter = function (keystone) {
 	this.pageTypes = [];
 
 	this.pageIdMap = null;
+	this.pageTypeMap = null;
 	this.pagePathTree = null;
 };
 
@@ -19,10 +20,60 @@ PageRouter.prototype.middleware = function (req, res, next) {
 	
 	// Attempt to match it to a page
 	var components = req.path.split('/');
-	var subTree = this.pagePathTree;
-	var node;
 
-	for (var i=1; i < components.length; ++i) {
+	// Are we in the CMS page editor?
+	if (components[1].toLowerCase() == "keystone") {
+		// Page editor?
+		if (components.length > 2 && components[2].toLowerCase() == "page") {
+			var relativeComponents = components.slice(3);
+			relativeComponents.unshift("");
+
+			var node = this.pathToTreeNode(relativeComponents);
+
+			// Did we match a page?
+			if (node !== null) {
+				this.renderPageEditor(node, req, res);
+			}
+			else {
+				req.flash('error', 'Page ' + components.slice(3).join('/') + ' could not be found.');
+				res.redirect('/keystone/');
+			}
+		}
+		else
+			next();
+	}
+	else {
+		var node = this.pathToTreeNode(components);
+
+		// Did we match a page?
+		if (node !== null) {
+			res.locals.page = node.page;
+
+			var view = new this.keystone.View(req, res);
+
+			// TODO: Verify templatePath
+
+			view.render(node.page.page.templatePath);
+		}
+		else
+			next();
+	}
+};
+
+
+/**
+ * Resolves an array of path components to a page tree node
+ */
+PageRouter.prototype.pathToTreeNode = function (components) {
+	// Attempt to match it to a page
+	var subTree = this.pagePathTree;
+	var node = null;
+
+	for (var i=0; i < components.length; ++i) {
+		// Skip blank components (unless it's the first)
+		if (components[i] === "" && i != 0)
+			continue;
+
 		node = null;
 
 		for (var n in subTree) {
@@ -38,18 +89,7 @@ PageRouter.prototype.middleware = function (req, res, next) {
 		subTree = node.tree;
 	}
 
-	// Did we match a page?
-	if (node !== null) {
-		res.locals.page = node.page;
-
-		var view = new this.keystone.View(req, res);
-
-		// TODO: Verify templatePath
-
-		view.render(node.page.page.templatePath);
-	}
-	else
-		next();
+	return node;
 };
 
 
@@ -95,46 +135,58 @@ PageRouter.prototype.buildPageIndex = function (done) {
 			if (err)
 				callback(err);
 			else
-				callback(null, typePages);
+				callback(null, { type: pageType, pages: typePages });
 		});
 
-	}, function(err, pageTypes) {
+	}, function(err, map) {
 
 		if (err)
 			return done(err);
 
-		// Build an ID map from our pages
+		// Build ID and type maps from our pages
 		pageIdMap = {};
+		pageTypeMap = {};
 		
-		pageTypes.forEach(function (pages) {
-			pages.forEach(function (page) {
+		map.forEach(function (type) {
+			type.pages.forEach(function (page) {
 				pageIdMap[page.id] = page;
+				pageTypeMap[page.id] = type.type;
 			});
 		});
 
 		// Build a path tree from our pages
 		function resolvePage(page) {
+			// Attempt to resolve the type
+			if (!(page.id in pageTypeMap)) {
+				done("Unable to resolve page type for '" + page.id + "'");
+				return;
+			}
+
+			var type = pageTypeMap[page.id];
+
 			// Is it a child page?
 			var path = [];
 
-			if (page.page.parent) {
-				var parent = pageIdMap[page.page.parent];
+			if (page.page.parent.ref) {
+				var parent = pageIdMap[page.page.parent.ref.toHexString()];
 				if (!parent)
-					done("Unable to resolve page parent '" + page.page.parent + "'.");
+					done("Unable to resolve page parent '" + page.page.parent.ref.toHexString() + "'.");
 
 				// Only root pages may have the blank route
 				if (page.page.path === '/')
 					done("Only root pages may have a blank path.");
 
-				path.concat(resolvePage(parent));
-				path.push({ path: page.page.path.toLowerCase(), page: page });
+				path = path.concat(resolvePage(parent));
+				path.push({ path: page.page.path.toLowerCase(), page: page, type: type });
 			}
 			else {
-				// Root page?
-				if (page.page.path === '/')
-					path.push({ path: '', page: page });
+				// Root page
+				var rootPath = page.page.path;
+
+				if (rootPath === "" || rootPath === "/")
+					path.push({ path: "", page: page, type: type });
 				else
-					path.push({ path: page.page.path.toLowerCase(), page: page });
+					done("Invalid root page path '" + rootPath + "'.")
 			}
 
 			// Add the path to the tree
@@ -144,22 +196,26 @@ PageRouter.prototype.buildPageIndex = function (done) {
 				if (!(node.path in subTree)) {
 					subTree[node.path] = {
 						page: node.page,
+						type: node.type,
 						tree: {}
 					};
 				}
 
 				subTree = subTree[node.path].tree;
 			});
+
+			return path;
 		}
 
 		pagePathTree = {};
 
-		pageTypes.forEach(function (pages) {
-			pages.forEach(resolvePage);
+		map.forEach(function (type) {
+			type.pages.forEach(resolvePage);
 		});
 
 		// All good!
 		self.pageIdMap = pageIdMap;
+		self.pageTypeMap = pageTypeMap;
 		self.pagePathTree = pagePathTree;
 		done();
 	});
@@ -178,7 +234,25 @@ PageRouter.prototype.addPageRoute = function (page) {
  * Registers routes used for the keystone CMS
  */
 PageRouter.prototype.routes = function (app) {
-	
+
+};
+
+
+/**
+ * Renders the CMS page editor view for a specified node
+ */
+PageRouter.prototype.renderPageEditor = function (node, req, res) {
+	// Import the normal keystone item route
+	var route = require('keystone/routes/views/item');
+
+	// Set up the environment
+	req.list = node.type;
+	req.params = {
+		item: node.page.id
+	};
+
+	// Render!
+	route(req, res);
 };
 
 
