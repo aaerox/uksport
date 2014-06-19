@@ -2,7 +2,7 @@ var keystone = require('keystone'),
 	Types = keystone.Field.Types;
 
 /**
- * Home Page Model
+ * The one and only home page
  * ==========
  */
 
@@ -21,9 +21,4 @@ Home.add('What We Do', {
 	}
 });
 
-/*Home.schema.virtual('content.full').get(function() {
-	return this.content.extended || this.content.brief;
-});*/
-
-//Home.defaultColumns = 'title, state|20%, author|20%, publishedDate|20%';
 Home.register();

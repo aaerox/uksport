@@ -5,6 +5,7 @@ function renderAddForm(req, res, pageType) {
 		list: pageType,
 		parent: req.body.parent,
 		pageType: req.body.pageType,
+		parentType: req.body.parentType,
 		submitted: req.body || {}
 	});
 }
@@ -16,14 +17,20 @@ exports = module.exports = function(req, res) {
 		return res.redirect('/keystone/');
 	}
 
-	// Attempt to resolve the parent
+	// Attempt to resolve the page and parent types
 	var pageType = keystone.list(req.body.pageType);
-	if (!pageType.isPage) {
-		req.flash('error', 'Invalid page type "' + pageType + '".');
+	if (!pageType || !pageType.isPage) {
+		req.flash('error', 'Invalid page type "' + req.body.pageType + '".');
 		return res.redirect('/keystone/');
 	}
 
-	pageType.model.findById(req.body.parent).exec(function(err, parent) {
+	var parentType = keystone.list(req.body.parentType);
+	if (!parentType || !parentType.isPage) {
+		req.flash('error', 'Invalid page type "' + req.body.parentType + '".');
+		return res.redirect('/keystone/');
+	}
+
+	parentType.model.findById(req.body.parent).exec(function(err, parent) {
 		
 		if (!parent) {
 			req.flash('error', 'Parent page could not be found.');
@@ -44,7 +51,7 @@ exports = module.exports = function(req, res) {
 				var newPage = new pageType.model();
 
 				newPage.page.parent.ref = parent.id;
-				newPage.page.parent.refType = pageType.key;
+				newPage.page.parent.refType = parentType.key;
 
 				var updateHandler = newPage.getUpdateHandler(req);
 

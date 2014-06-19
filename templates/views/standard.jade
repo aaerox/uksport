@@ -1,0 +1,9 @@
+extends ../layouts/default
+
+block content
+	+page-banner(page.banner.title, page.banner.subtitle)
+		if page.banner.blurb
+			p= page.banner.blurb
+	.content
+		h2= page.body.subtitle
+		!{page.body.text}

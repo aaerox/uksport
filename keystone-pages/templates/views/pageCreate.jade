@@ -50,6 +50,7 @@ block content
 	form(method='post', action='/keystone/page-create/')
 		input(type='hidden', name='action', value='create')
 		input(type='hidden', name='parent', value=parent)
+		input(type='hidden', name='parentType', value=parentType)
 		input(type='hidden', name='pageType', value=pageType)
 		input(type='hidden', name=csrf_token_key, value=csrf_token_value)
 		.form

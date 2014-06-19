@@ -1,5 +1,5 @@
-mixin page-banner(title, subtitle)
-	.page-banner
+mixin page-banner(title, subtitle, img)
+	.page-banner(style="background-image: url(#{img});")
 		.sub-title= subtitle
 		.title= title
 		block

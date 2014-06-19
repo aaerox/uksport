@@ -90,6 +90,7 @@ block content
 					form(method='post', action='/keystone/page-create/')
 						input(type='hidden', name='action', value='add')
 						input(type='hidden', name='parent', value=item.id)
+						input(type='hidden', name='parentType', value=list.key)
 						input(type='hidden', name=csrf_token_key, value=csrf_token_value)
 						.form
 							h4 Page Type
