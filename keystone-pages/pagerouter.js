@@ -1,17 +1,17 @@
 var _ = require('underscore'),
 	fs = require('fs'),
-	async = require('async')
+	async = require('async'),
 	keystone = require('keystone');
 
 
-var PageRouter = function (keystone) {
-	this.keystone = keystone;
-
+var PageRouter = function () {
 	this.pageTypes = [];
 
 	this.pageIdMap = null;
 	this.pageTypeMap = null;
 	this.pagePathTree = null;
+
+	this.sitemap = null;
 };
 
 
@@ -25,24 +25,30 @@ PageRouter.prototype.middleware = function (req, res, next) {
 
 	// Are we in the CMS page editor?
 	if (components[1].toLowerCase() == "keystone") {
-		// Page editor?
-		if (components.length > 2 && components[2].toLowerCase() == "page") {
-			var relativeComponents = components.slice(3);
-			relativeComponents.unshift("");
-
-			var node = this.pathToTreeNode(relativeComponents);
-
-			// Did we match a page?
-			if (node !== null) {
-				this.renderPageEditor(node, req, res);
-			}
-			else {
-				req.flash('error', 'Page ' + components.slice(3).join('/') + ' could not be found.');
-				res.redirect('/keystone/');
-			}
-		}
-		else
+		// Need to be authed
+		if (!req.user || !req.user.canAccessKeystone) {
 			next();
+		}
+		else {
+			// Page editor?
+			if (components.length > 2 && components[2].toLowerCase() == "page") {
+				var relativeComponents = components.slice(3);
+				relativeComponents.unshift("");
+
+				var node = this.pathToTreeNode(relativeComponents);
+
+				// Did we match a page?
+				if (node !== null) {
+					keystone.pages.renderPageEditor(node, req, res);
+				}
+				else {
+					req.flash('error', 'Page ' + components.slice(3).join('/') + ' could not be found.');
+					res.redirect('/keystone/');
+				}
+			}
+			else
+				next();
+		}
 	}
 	else {
 		var node = this.pathToTreeNode(components);
@@ -51,7 +57,7 @@ PageRouter.prototype.middleware = function (req, res, next) {
 		if (node !== null) {
 			res.locals.page = node.page;
 
-			var view = new this.keystone.View(req, res);
+			var view = new keystone.View(req, res);
 
 			// TODO: Verify templatePath
 
@@ -123,7 +129,7 @@ PageRouter.prototype.registerPageType = function (pageType) {
 
 
 /**
- * Adds a page's route to the routing index
+ * Builds page map structures based on the current database state
  */
 PageRouter.prototype.buildPageIndex = function (done) {
 
@@ -231,10 +237,47 @@ PageRouter.prototype.buildPageIndex = function (done) {
 		self.pageIdMap = pageIdMap;
 		self.pageTypeMap = pageTypeMap;
 		self.pagePathTree = pagePathTree;
+
+		// Quickly build our sitemap
+		self.buildSitemap();
+
 		done();
 	});
 };
 
+
+/**
+ * Constructs a sitemap based on the current page structures
+ */
+PageRouter.prototype.buildSitemap = function () {
+
+	function getPage(page, path) {
+		// Determine our path
+		var nodePath = page.page.page.path;
+		if (nodePath.lastIndexOf('/', 0) !== 0 && path !== "/")
+			nodePath = "/" + nodePath;
+
+		var path = path + nodePath;
+
+		// Build our list of children
+		var children = [];
+
+		for (var key in page.tree) {
+			children.push(getPage(page.tree[key], path));
+		}
+
+		return {
+			title: page.page.page.title,
+			path: path,
+			children: children
+		};
+	}
+
+	if ("" in pagePathTree)
+		this.sitemap = getPage(pagePathTree[""], "")
+	else
+		this.sitemap = {};
+};
 
 /**
  * Adds a page's route to the routing index
@@ -249,114 +292,6 @@ PageRouter.prototype.addPageRoute = function (page) {
  */
 PageRouter.prototype.routes = function (app) {
 
-};
-
-
-/**
- * Renders the CMS page editor view for a specified node
- */
-PageRouter.prototype.renderPageEditor = function (node, req, res) {
-	var item = node.page;
-	var list = node.type;
-
-	if (!item) {
-		req.flash('error', 'Page could not be edited.');
-		return res.redirect('/keystone/');
-	}
-	
-	var viewLocals = {
-		validationErrors: {},
-		pageTypes: this.pageTypes
-	};
-	
-	
-	function getPath(node) {
-		var path = node.parent === null ? "" : getPath(node.parent);
-		var nodePath = node.page.page.path;
-
-		if (nodePath.lastIndexOf('/', 0) !== 0 && path !== "/")
-			nodePath = "/" + nodePath;
-
-		return path + nodePath;
-	}
-
-	// Build our page path drilldown
-	var pagePath = [];
-	var pathNode = node.parent;
-
-	while (pathNode) {
-		pagePath.unshift({
-			href: '/keystone/page' + getPath(pathNode),
-			title: pathNode.page.page.title
-		});
-
-		pathNode = pathNode.parent;
-	}
-
-	viewLocals.pagePath = pagePath;
-
-	// Build our page child list
-	var pageChildren = [];
-
-	for (var path in node.tree) {
-		var child = node.tree[path];
-
-		pageChildren.push({
-			href: '/keystone/page' + getPath(child),
-			title: child.page.page.title
-		});
-	};
-
-	viewLocals.pageChildren = pageChildren;
-
-	// Render our view safely
-	var renderView = function() {
-		
-		var	loadFormFieldTemplates = function(cb){
-			var onlyFields = function(item) { return item.type === 'field'; };
-			var compile = function(item, callback) { item.field.compile('form',callback); };
-			async.eachSeries(list.uiElements.filter(onlyFields), compile , cb);
-		};
-		
-		
-		/** Render View */
-		
-		async.parallel([
-			loadFormFieldTemplates
-		], function(err) {
-			
-			// TODO: Handle err
-			
-			keystone.render(req, res, 'page', _.extend(viewLocals, {
-				section: keystone.nav.by.list[list.key] || {},
-				title: 'Keystone: ' + list.singular + ': ' + list.getDocumentName(item),
-				page: 'item',
-				list: list,
-				item: item
-			}));
-			
-		});
-	};
-	
-	if (req.method === 'POST' && req.body.action === 'updateItem' && !list.get('noedit')) {
-		
-		if (!keystone.security.csrf.validate(req)) {
-			req.flash('error', 'There was a problem with your request, please try again.');
-			return renderView();
-		}
-		
-		item.getUpdateHandler(req).process(req.body, { flashErrors: true, logErrors: true }, function(err) {
-			if (err) {
-				return renderView();
-			}
-
-			req.flash('success', 'Your changes have been saved.');
-			return res.redirect(req.path);
-		});
-		
-	} else {
-		renderView();
-	}
 };
 
 

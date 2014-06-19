@@ -16,8 +16,8 @@ require('../partials/Banner')(Home);
 
 Home.add('What We Do', {
 	whatWeDo: {
-		title: { type: String, required: true, label: 'Title' },
-		copy: { type: Types.Html, wysiwyg: true, required: true, label: 'Copy' }
+		title: { type: String, label: 'Title' },
+		copy: { type: Types.Html, wysiwyg: true, label: 'Copy' }
 	}
 });
 

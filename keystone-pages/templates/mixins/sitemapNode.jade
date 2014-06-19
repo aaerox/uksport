@@ -1,0 +1,7 @@
+mixin sitemapNode(node)
+	h3: a(href='/keystone/page' + node.path)= node.title
+	if node.children.length > 0
+		ul.sitemap-parent
+			each child in node.children
+				li.sitemap-child
+					+sitemapNode(child)

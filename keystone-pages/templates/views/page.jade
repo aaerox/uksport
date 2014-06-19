@@ -78,14 +78,14 @@ block intro
 			if pagePath.length > 0
 				.btn-companion.breadcrumb-wrapper: ul.breadcrumb
 					each page in pagePath
-						li: a(href=page.href, title=page.title, data-toggle='tooltip', data-placement='top')= page.title
+						li: a(href=page.href, data-toggle='tooltip', data-placement='top')= page.title
 
 block content
 	.field.item-name: .col-sm-12
 			h2.form-heading.name-value= item.get('page.title') || '(no name)'
 			ul.page-children
 				each page in pageChildren
-					li: a(href=page.href, title=page.title, data-toggle='tooltip', data-placement='top')= page.title
+					li: a(href=page.href, data-toggle='tooltip', data-placement='top')= page.title
 				li.create-item.create-page
 					form(method='post', action='/keystone/page-create/')
 						input(type='hidden', name='action', value='add')

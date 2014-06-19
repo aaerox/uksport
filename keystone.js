@@ -31,7 +31,7 @@ keystone.init({
 });
 
 // Load our page functionality
-keystonePages.register(keystone);
+keystonePages.register();
 
 // Load our project's Models
 keystone.import('models');

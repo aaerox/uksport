@@ -1,10 +1,13 @@
 extends ../../../node_modules/keystone/templates/layout/base
 
+include ../mixins/sitemapNode
+
 block intro
 	.page-header
-		h1 Manageeeee
+		h1 Manage
 
 block content
+	h2.page-header Data
 	.keystone-lists
 		if nav.flat
 			each list in lists
@@ -21,4 +24,8 @@ block content
 				.nav-section
 					h4 Other
 					each list in orphanedLists
-						h3: a(href='/keystone/' + list.path)= list.label
+						if !list.isPage
+							h3: a(href='/keystone/' + list.path)= list.label
+
+	h2.page-header Sitemap
+	+sitemapNode(sitemap)

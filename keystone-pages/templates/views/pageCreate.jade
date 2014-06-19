@@ -41,7 +41,6 @@ block js
 	script(src='/keystone/js/views/item.js')
 	script.
 		Keystone.list = { path: "#{list.path}" };
-		Keystone.item = { id: "#{item.id}" };
 		Keystone.wysiwyg = { options: !{JSON.stringify(wysiwygOptions)} };
 
 
@@ -50,6 +49,8 @@ block intro
 block content
 	form(method='post', action='/keystone/page-create/')
 		input(type='hidden', name='action', value='create')
+		input(type='hidden', name='parent', value=parent)
+		input(type='hidden', name='pageType', value=pageType)
 		input(type='hidden', name=csrf_token_key, value=csrf_token_value)
 		.form
 			h4 New #{list.singular}
@@ -63,3 +64,7 @@ block content
 			
 			each field in list.initialFields
 				|!{field.render('initial',submitted) }
+
+		.toolbar
+			.toolbar-create
+				button(type='submit').btn.btn-default.btn-create Create
