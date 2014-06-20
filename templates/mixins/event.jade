@@ -1,0 +1,16 @@
+mixin event(event)
+	.event(class='event-#{event.type}')
+		- var eventClass = 'content ' + (event.news.image ? 'content-image ' : '')
+		- if (event.news.imagePosition == 'bottom') { eventClass += 'content-image-bottom '; } else { eventClass += 'content-image-top '; }
+		div(class=eventClass)
+			if event.type == 'news'
+				p.type News
+				p.tag= event.tag
+				p.text= event.news.text
+			if event.type == 'funding'
+				p.type= event.funding.event + ' funding'
+				p.tag= event.tag
+				p.text= event.funding.text
+		if event.news
+			if event.news.image
+				.image(style="background-image: url(#{event.news.image.url})")

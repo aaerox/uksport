@@ -14,6 +14,8 @@
 ------------------------------------------------------*/
 @import "common/settings";
 @import "common/breakpoints";
+@import "common/typography";
+@import "common/breakpoints";
 @import "common/grid";
 
 
@@ -28,14 +30,18 @@
 @import "modules/core/layout";
 @import "modules/core/header";
 @import "modules/core/navigation";
+@import "modules/core/footer";
 
 
 /*----------------------------------------------------- 
     Reusable modules
 ------------------------------------------------------*/
-
+@import "modules/components/event";
+@import "modules/components/page-banner";
 
 
 /*----------------------------------------------------- 
     Bespoke modules
 ------------------------------------------------------*/
+@import "modules/components/bespoke/event-listing";
+@import "modules/components/bespoke/what-we-do";

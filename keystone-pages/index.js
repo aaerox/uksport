@@ -22,9 +22,6 @@ KeystonePages.prototype.register = function () {
 	keystone.Page = this.Page;
 	keystone.Field.Types.Page = require('./fieldpage');
 
-	// Register our middleware
-	keystone.pre('routes', this.router.middleware.bind(this.router));
-
 	// Hook the routes function so that we can override CMS routes
 	this._routes = keystone.routes.bind(keystone);
 	keystone.routes = this.routes.bind(this);
@@ -36,7 +33,7 @@ KeystonePages.prototype.register = function () {
 
 
 /**
- * Registers routes used for the keystone CMS
+ * Registers routes used for the keystone CMS and pages
  */
 KeystonePages.prototype.routes = function (app) {
 	

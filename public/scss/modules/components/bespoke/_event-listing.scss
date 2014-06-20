@@ -1,0 +1,14 @@
+.event-listing {
+	@include display(flex);
+	@include flex-flow(row wrap);
+
+	@include align-items(center);
+	@include justify-content(flex-start);
+
+	.event {
+		margin-right: 25px;
+		margin-bottom: 50px;
+		//margin: auto;
+		//margin-bottom: 50px;
+	}
+}

@@ -1,3 +1,4 @@
+@charset "CP850";
 /*----------------------------------------------------- 
     Third-party libraries
 ------------------------------------------------------*/
@@ -18,6 +19,368 @@
 /*----------------------------------------------------- 
     Layout
 ------------------------------------------------------*/
+/*----------------------------------------------------- 
+    Standard site breakpoints
+------------------------------------------------------*/
+/*----------------------------------------------------- 
+    Typography
+------------------------------------------------------*/
+@font-face {
+  font-family: "Knockout HTF71-FullMiddlewt";
+  font-weight: 400;
+  font-style: normal;
+  src: url("/font/Knockout-HTF71-FullMiddlewt.eot");
+  src: url("/font/Knockout-HTF71-FullMiddlewt.eot?#iefix") format("embedded-opentype"), url("/font/Knockout-HTF71-FullMiddlewt.woff") format("woff"), url("/font/Knockout-HTF71-FullMiddlewt.ttf") format("truetype"), url("/font/Knockout-HTF71-FullMiddlewt.svg#Knockout HTF71-FullMiddlewt") format("svg"); }
+@font-face {
+  font-family: "Knockout HTF32-JuniorCruiserwt";
+  font-weight: 400;
+  font-style: normal;
+  src: url("/font/Knockout-HTF32-JuniorCruiserwt.eot");
+  src: url("/font/Knockout-HTF32-JuniorCruiserwt.eot?#iefix") format("embedded-opentype"), url("/font/Knockout-HTF32-JuniorCruiserwt.woff") format("woff"), url("/font/Knockout-HTF32-JuniorCruiserwt.ttf") format("truetype"), url("/font/Knockout-HTF32-JuniorCruiserwt.svg#Knockout HTF32-JuniorCruiserwt") format("svg"); }
+@font-face {
+  font-family: "Knockout HTF49-Liteweight";
+  font-weight: 400;
+  font-style: normal;
+  src: url("/font/Knockout-HTF49-Liteweight.eot");
+  src: url("/font/Knockout-HTF49-Liteweight.eot?#iefix") format("embedded-opentype"), url("/font/Knockout-HTF49-Liteweight.woff") format("woff"), url("/font/Knockout-HTF49-Liteweight.ttf") format("truetype"), url("/font/Knockout-HTF49-Liteweight.svg#Knockout HTF49-Liteweight") format("svg"); }
+@font-face {
+  font-family: "Knockout HTF70-FullWelterwt";
+  font-weight: 400;
+  font-style: normal;
+  src: url("/font/Knockout-HTF70-FullWelterwt.eot");
+  src: url("/font/Knockout-HTF70-FullWelterwt.eot?#iefix") format("embedded-opentype"), url("/font/Knockout-HTF70-FullWelterwt.woff") format("woff"), url("/font/Knockout-HTF70-FullWelterwt.ttf") format("truetype"), url("/font/Knockout-HTF70-FullWelterwt.svg#Knockout HTF70-FullWelterwt") format("svg"); }
+@font-face {
+  font-family: "Knockout HTF68-FullFeatherwt";
+  font-weight: 400;
+  font-style: normal;
+  src: url("/font/Knockout-HTF68-FullFeatherwt.eot");
+  src: url("/font/Knockout-HTF68-FullFeatherwt.eot?#iefix") format("embedded-opentype"), url("/font/Knockout-HTF68-FullFeatherwt.woff") format("woff"), url("/font/Knockout-HTF68-FullFeatherwt.ttf") format("truetype"), url("/font/Knockout-HTF68-FullFeatherwt.svg#Knockout HTF68-FullFeatherwt") format("svg"); }
+/*!
+TYPEPLATE
+URL ........... http://typeplate.com
+VERSION ....... 1.1.4
+Github ........ https://github.com/typeplate/bower
+AUTHORS ....... Dennis Gaebel (@gryghostvisuals) & Zachary Kain (@zakkain)
+LICENSE ....... Creative Commmons Attribution 3.0 (http://creativecommons.org/licenses/by/3.0)
+LICENSE URL ... https://github.com/typeplate/bower/blob/master/license.txt
+*/
+@font-face {
+  font-family: "Ampersand";
+  src: local("Georgia"), local("Garamond"), local("Palatino"), local("Book Antiqua");
+  unicode-range: U+0026; }
+@font-face {
+  font-family: "Ampersand";
+  src: local("Georgia");
+  unicode-range: U+270C; }
+body {
+  word-wrap: break-word; }
+
+pre code {
+  word-wrap: normal; }
+
+/**
+ * Dropcap Sass @include
+ * Use the following Sass @include with any selector you feel necessary.
+ *
+	@include dropcap($dropcap-float-position, $dropcap-font-size, $dropcap-font-family, $dropcap-txt-indent, $dropcap-margin, $dropcap-padding, $dropcap-color, $dropcap-line-height, $dropcap-bg);
+ *
+ * Extend this object into your custom stylesheet. Let the variables do the work.
+ *
+ */
+html {
+  font: normal 87.5%/1.65 Helvetica, Arial, sans-serif; }
+
+body {
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  -o-hyphens: auto;
+  hyphens: auto;
+  color: #333333; }
+
+small {
+  font-size: 65%; }
+
+h1, h2, h3, h4, h5, h6 {
+  text-rendering: optimizeLegibility;
+  line-height: 1;
+  margin-top: 0; }
+
+.tera {
+  font-size: 90px;
+  font-size: 6.42857rem;
+  margin-bottom: 3.59333px;
+  margin-bottom: 0.25667rem; }
+
+.giga {
+  font-size: 60px;
+  font-size: 4.28571rem;
+  margin-bottom: 5.39px;
+  margin-bottom: 0.385rem; }
+
+.mega {
+  font-size: 48px;
+  font-size: 3.42857rem;
+  margin-bottom: 6.7375px;
+  margin-bottom: 0.48125rem; }
+
+.alpha, h1 {
+  font-size: 36px;
+  font-size: 2.57143rem;
+  margin-bottom: 8.98333px;
+  margin-bottom: 0.64167rem; }
+
+.beta, h2 {
+  font-size: 30px;
+  font-size: 2.14286rem;
+  margin-bottom: 10.78px;
+  margin-bottom: 0.77rem; }
+
+.gamma, h3 {
+  font-size: 26px;
+  font-size: 1.85714rem;
+  margin-bottom: 12.43846px;
+  margin-bottom: 0.88846rem; }
+
+.delta, h4, .navigation .nav li a span {
+  font-size: 20px;
+  font-size: 1.42857rem;
+  margin-bottom: 16.17px;
+  margin-bottom: 1.155rem; }
+
+.epsilon, h5 {
+  font-size: 18px;
+  font-size: 1.28571rem;
+  margin-bottom: 17.96667px;
+  margin-bottom: 1.28333rem; }
+
+.zeta, h6 {
+  font-size: 16px;
+  font-size: 1.14286rem;
+  margin-bottom: 20.2125px;
+  margin-bottom: 1.44375rem; }
+
+p {
+  margin: auto auto 1.5em; }
+
+abbr,
+acronym,
+blockquote,
+code,
+dir,
+kbd,
+listing,
+plaintext,
+q,
+samp,
+tt,
+var,
+xmp {
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  -o-hyphens: none;
+  hyphens: none; }
+
+pre code {
+  white-space: -moz-pre-wrap;
+  white-space: pre-wrap; }
+
+pre {
+  white-space: pre; }
+
+code {
+  white-space: pre;
+  font-family: monospace; }
+
+/**
+ * Abbreviations Markup
+ *
+	<abbr title="hyper text markup language">HMTL</abbr>
+ *
+ * Extend this object into your markup.
+ *
+ */
+abbr {
+  font-variant: small-caps;
+  font-weight: 600;
+  text-transform: lowercase;
+  color: gray; }
+  abbr[title]:hover {
+    cursor: help; }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #164785; }
+
+p + .drop-cap {
+  text-indent: 0;
+  margin-top: 0; }
+
+.drop-cap:first-letter {
+  float: left;
+  margin: inherit;
+  padding: inherit;
+  font-size: 4em;
+  font-family: inherit;
+  line-height: 1;
+  text-indent: 0;
+  background: transparent;
+  color: inherit; }
+
+/**
+ * Lining Definition Style Markup
+ *
+	<dl class="lining">
+		<dt><b></b></dt>
+		<dd></dd>
+	</dl>
+ *
+ * Extend this object into your markup.
+ *
+ */
+.lining dt,
+.lining dd {
+  display: inline;
+  margin: 0; }
+.lining dt + dt:before,
+.lining dd + dt:before {
+  content: "\A";
+  white-space: pre; }
+.lining dd + dd:before {
+  content: ", "; }
+.lining dd:before {
+  content: ": ";
+  margin-left: -0.2rem; }
+
+/**
+ * Dictionary Definition Style Markup
+ *
+	<dl class="dictionary-style">
+		<dt><b></b></dt>
+			<dd></dd>
+	</dl>
+ *
+ * Extend this object into your markup.
+ *
+ */
+.dictionary-style dt {
+  display: inline;
+  counter-reset: definitions; }
+  .dictionary-style dt + dt:before {
+    content: ", ";
+    margin-left: -0.2rem; }
+.dictionary-style dd {
+  display: block;
+  counter-increment: definitions; }
+  .dictionary-style dd:before {
+    content: counter(definitions,decimal) ". "; }
+
+/**
+ * Blockquote Markup
+ *
+		<figure>
+			<blockquote cite="">
+				<p></p>
+			</blockquote>
+			<figcaption>
+				<cite>
+					<small><a href=""></a></small>
+				</cite>
+			</figcaption>
+		</figure>
+ *
+ * Extend this object into your markup.
+ *
+ */
+/**
+ * Pull Quotes Markup
+ *
+	<aside class="pull-quote">
+		<blockquote>
+			<p></p>
+		</blockquote>
+	</aside>
+ *
+ * Extend this object into your custom stylesheet.
+ *
+ */
+.pull-quote {
+  position: relative;
+  padding: 1em; }
+  .pull-quote:before, .pull-quote:after {
+    height: 1em;
+    opacity: 0.5;
+    position: absolute;
+    font-size: 4em;
+    color: #dc976e; }
+  .pull-quote:before {
+    content: '“';
+    top: 0;
+    left: 0; }
+  .pull-quote:after {
+    content: '”';
+    bottom: 0;
+    right: 0; }
+
+/**
+ * Figures Markup
+ *
+	<figure>
+		<figcaption>
+			<strong>Fig. 4.2 | </strong>Type Anatomy, an excerpt from Mark Boulton's book<cite title="http://designingfortheweb.co.uk/book/part3/part3_chapter11.php">"Designing for the Web"</cite>
+		</figcaption>
+	</figure>
+ *
+ * Extend this object into your markup.
+ *
+ */
+/**
+ * Footnote Markup : Replace 'X' with your unique number for each footnote
+ *
+	<article>
+		<p><sup><a href="#fn-itemX" id="fn-returnX"></a></sup></p>
+		<footer>
+			<ol class="foot-notes">
+				<li id="fn-itemX"><a href="#fn-returnX">↩</a></li>
+			</ol>
+		</footer>
+	</article>
+ *
+ * Extend this object into your markup.
+ *
+ */
+@media screen and (max-width: 768px) {
+  html {
+    font-size: 78.75%; } }
+@media screen and (max-width: 480px) {
+  html {
+    font-size: 70%; } }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Knockout HTF49-Liteweight", Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  margin-bottom: 1.5rem;
+  line-height: 1.25; }
+
+p, b, i, a, strong, label {
+  font-size: 14px; }
+  p.intro, b.intro, i.intro, a.intro, strong.intro, label.intro {
+    font-size: 16px; }
+
+a {
+  color: #164785;
+  text-decoration: none; }
+  a:hover {
+    text-decoration: underline; }
+
+.invert h1, .invert-text h1, .invert h2, .invert-text h2, .invert h3, .invert-text h3, .invert h4, .invert-text h4, .invert h5, .invert-text h5, .invert h6, .invert-text h6, .invert p, .invert-text p {
+  color: white; }
+
 /*----------------------------------------------------- 
     Standard site breakpoints
 ------------------------------------------------------*/
@@ -52,9 +415,8 @@ header.header .logo {
   width: 31.76157%;
   margin-right: 0;
   height: 83px;
-  margin-top: 20px;
-  text-indent: -9999px;
-  background: url(/img/logo.png) no-repeat 0px 0px; }
+  margin: 40px 0;
+  text-indent: -9999px; }
   header.header .logo:last-child {
     margin-right: 0; }
   @media screen and (max-width: 768px) {
@@ -68,40 +430,214 @@ header.header .logo {
         margin-right: 0; } }
   header.header .logo a {
     display: block;
-    height: 100%;
-    width: auto; }
-  @media screen and (max-width: 768px) {
-    header.header .logo {
-      margin-top: 20px;
-      background: url(/img/logo.png) no-repeat 10px 0px; } }
+    background: url(/img/logo.png) no-repeat 0px 0px;
+    width: 165px;
+    height: 83px;
+    margin-left: 30px; }
 
 .navigation {
   display: block;
+  overflow: hidden;
   width: 100%;
   height: 50px; }
-  .navigation .nav {
-    position: relative;
-    display: table;
+  .navigation .wrapper {
     max-width: 980px;
     margin-left: auto;
-    margin-right: auto;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    padding-left: 0px; }
-    .navigation .nav:after {
+    margin-right: auto; }
+    .navigation .wrapper:after {
       content: "";
       display: table;
       clear: both; }
+    @media screen and (min-width: 980px) {
+      .navigation .wrapper {
+        width: 980px; } }
+    @media screen and (max-width: 980px) {
+      .navigation .wrapper {
+        width: 100%; } }
+  .navigation .mask {
+    position: absolute;
+    height: 50px;
+    left: 100px;
+    width: 2000px;
+    background: #164785; }
+  .navigation .nav {
+    position: relative;
+    display: table;
+    width: 100%;
+    height: 50px;
+    list-style: none;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: -20px;
+    padding-left: 0px; }
     .navigation .nav li {
-      display: table-cell;
-      text-align: center;
-      list-style-type: none;
-      color: white;
-      border-left: 1px solid #333333; }
+      display: table-cell; }
+      .navigation .nav li a {
+        position: relative;
+        display: block;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        text-transform: uppercase; }
+        .navigation .nav li a span {
+          position: relative;
+          z-index: 2;
+          line-height: 50px;
+          font-size: 24px;
+          font-family: "Knockout HTF49-Liteweight", Helvetica, Arial, sans-serif; }
+        .navigation .nav li a:after {
+          content: '';
+          display: block;
+          position: absolute;
+          z-index: 1;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          -webkit-transform: skewx(-30deg);
+          -moz-transform: skewx(-30deg);
+          -ms-transform: skewx(-30deg);
+          -o-transform: skewx(-30deg);
+          transform: skewx(-30deg);
+          background: #164785; }
+        .navigation .nav li a:hover:after {
+          background: #d6002a; }
+
+.footer {
+  margin-bottom: 100px; }
 
 /*----------------------------------------------------- 
     Reusable modules
 ------------------------------------------------------*/
+.event {
+  position: relative;
+  background: #164785;
+  padding: 32px;
+  width: 300px;
+  color: white; }
+  .event .type, .event .tag {
+    font-size: 12px;
+    line-height: 12px;
+    text-transform: uppercase;
+    font-family: "Knockout HTF32-JuniorCruiserwt", Helvetica, Arial, sans-serif;
+    margin: 0; }
+  .event .tag {
+    color: #999999;
+    margin-bottom: 10px; }
+  .event .text {
+    margin: 0; }
+
+.event-news .content {
+  position: relative;
+  z-index: 1; }
+  .event-news .content.content-image-bottom {
+    padding-bottom: 100px; }
+    .event-news .content.content-image-bottom ~ .image {
+      bottom: 0; }
+      .event-news .content.content-image-bottom ~ .image:after {
+        bottom: 0; }
+  .event-news .content.content-image-top {
+    padding-top: 100px; }
+    .event-news .content.content-image-top ~ .image {
+      top: 0; }
+      .event-news .content.content-image-top ~ .image:after {
+        top: 0; }
+.event-news .image {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 150px;
+  background-size: cover;
+  overflow: hidden; }
+  .event-news .image:after {
+    position: absolute;
+    content: '';
+    left: 0;
+    border-top: 150px solid transparent;
+    border-bottom: 150px solid transparent;
+    border-left: 300px solid #164785; }
+
+.event-funding {
+  background: #e9edf2; }
+  .event-funding .type {
+    color: #164785; }
+  .event-funding .tag {
+    color: #d6002a; }
+  .event-funding .text {
+    color: #636a73;
+    font-size: 26px; }
+
+.page-banner {
+  height: 400px;
+  background-size: cover;
+  color: white; }
+  .page-banner .container {
+    position: relative;
+    height: 100%; }
+  .page-banner .title {
+    position: absolute;
+    top: 154px;
+    font-size: 122px;
+    line-height: 122px;
+    font-family: "Knockout HTF49-Liteweight", Helvetica, Arial, sans-serif;
+    text-transform: uppercase; }
+  .page-banner .sub-title {
+    position: absolute;
+    top: 146px;
+    left: 80px;
+    font-size: 18px;
+    line-height: 18px;
+    font-family: "Knockout HTF32-JuniorCruiserwt", Helvetica, Arial, sans-serif;
+    text-transform: uppercase; }
+  .page-banner .blurb {
+    position: absolute;
+    max-width: 350px;
+    bottom: 40px;
+    right: 80px;
+    text-align: right; }
+
 /*----------------------------------------------------- 
     Bespoke modules
 ------------------------------------------------------*/
+.event-listing {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-flow: row wrap;
+  -moz-flex-flow: row wrap;
+  flex-flow: row wrap;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  box-align: center;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  -o-align-items: center;
+  align-items: center;
+  -ms-flex-align: center;
+  -webkit-box-pack: start;
+  -moz-box-pack: start;
+  box-pack: start;
+  -webkit-justify-content: flex-start;
+  -moz-justify-content: flex-start;
+  -ms-justify-content: flex-start;
+  -o-justify-content: flex-start;
+  justify-content: flex-start;
+  -ms-flex-pack: start; }
+  .event-listing .event {
+    margin-right: 25px;
+    margin-bottom: 50px; }
+
+.what-we-do {
+  margin: 60px auto; }
+  .what-we-do h2 {
+    text-align: center; }
+  .what-we-do p {
+    max-width: 500px; }

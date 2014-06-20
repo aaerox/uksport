@@ -17,7 +17,7 @@ require('../partials/Banner')(Standard);
 Standard.add('Content', {
 	body: {
 		subtitle: { type: String, label: 'Subtitle' },
-		text: { type: Types.Html, wysiwyg: true, label: 'text' }
+		text: { type: Types.Html, wysiwyg: true, label: 'Text' }
 	}
 });
 

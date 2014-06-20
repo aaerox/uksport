@@ -12,6 +12,8 @@ var PageRouter = function () {
 	this.pagePathTree = null;
 
 	this.sitemap = null;
+
+	this.routeMap = {};
 };
 
 
@@ -55,13 +57,16 @@ PageRouter.prototype.middleware = function (req, res, next) {
 
 		// Did we match a page?
 		if (node !== null) {
+			// Standard page locals
 			res.locals.page = node.page;
+			res.locals.sitemap = this.sitemap;
 
-			var view = new keystone.View(req, res);
-
-			// TODO: Verify templatePath
-
-			view.render(node.page.page.templatePath);
+			// Find our page route
+			var route = this.routeMap[node.page.page.templatePath];
+			if (!route)
+				next("Unable to find page route.");
+			else
+				route(req, res);
 		}
 		else
 			next();
@@ -107,6 +112,8 @@ PageRouter.prototype.pathToTreeNode = function (components) {
 PageRouter.prototype.registerPageType = function (pageType) {
 	
 	// Listen for page events
+	var self = this;
+
 	pageType.schema.post('init', function (doc) {
 		console.log('%s has been initialized from the db', doc._id);
 	});
@@ -117,10 +124,16 @@ PageRouter.prototype.registerPageType = function (pageType) {
 
 	pageType.schema.post('save', function (doc) {
 		console.log('%s has been saved', doc._id);
+
+		// Rebuild the index
+		self.buildPageIndex();
 	});
 
 	pageType.schema.post('remove', function (doc) {
 		console.log('%s has been removed', doc._id);
+
+		// Rebuild the index
+		self.buildPageIndex();
 	});
 
 	// Add it to our list of page types
@@ -132,6 +145,8 @@ PageRouter.prototype.registerPageType = function (pageType) {
  * Builds page map structures based on the current database state
  */
 PageRouter.prototype.buildPageIndex = function (done) {
+
+	done = done || function (){};
 
 	// Build a list of all pages from all page types
 	var self = this;
@@ -268,6 +283,7 @@ PageRouter.prototype.buildSitemap = function () {
 
 		return {
 			title: page.page.page.title,
+			nav: page.page.page.isNav,
 			path: path,
 			children: children
 		};
@@ -282,16 +298,21 @@ PageRouter.prototype.buildSitemap = function () {
 /**
  * Adds a page's route to the routing index
  */
-PageRouter.prototype.addPageRoute = function (page) {
-	
+PageRouter.prototype.addPageRoute = function (name, route) {
+	// Save it to our list
+	if (name in this.routeMap)
+		console.error("Route " + name + " already in map.");
+	else
+		this.routeMap[name] = route;
 };
 
 
 /**
- * Registers routes used for the keystone CMS
+ * Registers our router middleware
  */
-PageRouter.prototype.routes = function (app) {
-
+PageRouter.prototype.register = function () {
+	// Register our middleware
+	keystone.pre('routes', this.middleware.bind(this));
 };
 
 

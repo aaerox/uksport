@@ -1,6 +1,10 @@
 extends ../layouts/default
 
 block content
-	+page-banner(page.banner.title, page.banner.subtitle)
-		if page.banner.blurb
-			p= page.banner.blurb
+	+page-banner(page.banner.title, page.banner.subtitle, page.banner.image.url, page.banner.blurb)
+	if page.whatWeDo.title
+		.container
+			.what-we-do
+				h2= page.whatWeDo.title
+				!= page.whatWeDo.copy
+			+event-listing(data.events)

@@ -1,10 +1,8 @@
 nav.navigation
-	ul.nav
-		li: a(href="/") Home
-		li: a(href="/about") About UK Sport
-		li: a(href="/sports") Sports
-		li: a(href="/investment") Investment
-		li: a(href="/media") Media Centre
-		li: a(href="/info") Information Zone
-		li: a(href="/jobs") Jobs
-		li: a(href="/contact") Contact
+	.wrapper
+		ul.nav
+			.mask
+			li: a(href="/"): span Home
+			each node in sitemap.children
+				if node.nav
+					li: a(href=node.path): span= node.title

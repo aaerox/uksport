@@ -1,23 +1,24 @@
 header.header {
+
 	.logo {
 		@include span-columns(4 of 12);
 		@include omega();
 		@include collapse-column();
 
 		height: 83px;
-		margin-top: 20px;
+		
+		margin: 40px 0;
+
 		text-indent: -9999px;
-		background: url(/img/logo.png) no-repeat 0px 0px;
 
 		a {
 			display: block;
-			height: 100%;
-			width: auto;
-		}
+			background: url(/img/logo.png) no-repeat 0px 0px;
 
-		@include media($tablet-and-below) {
-			margin-top: 20px;
-			background: url(/img/logo.png) no-repeat 10px 0px;
+			width: 165px;
+			height: 83px;
+
+			margin-left: $element-spacing;
 		}
 	}
 }

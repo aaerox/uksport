@@ -1,24 +1,100 @@
+$skew-angle: 30deg;
+$nav-height: 50px;
+
 .navigation {
 	display: block;
+	overflow: hidden;
+
 	width: 100%;
-	height: 50px;
+	height: $nav-height;
+
+
+	.wrapper {
+		@include outer-container();
+
+		@include media($desktop-only) {
+			width: 980px;
+		}
+
+		@include media($desktop-and-below) {
+			width: 100%;
+		}
+	}
+
+	.mask {
+		position: absolute;
+		height: $nav-height;
+
+		left: 100px;
+		width: 2000px;
+
+		background: $uk-blue;
+	}
 
 	.nav {
 		position: relative;
 		display: table;
-		@include outer-container();
+		
+		width: 100%;
+		height: $nav-height;
+
+		list-style: none;
 
 		margin-top: 0px;
 		margin-bottom: 0px;
+		margin-left: -20px;
 		padding-left: 0px;
 
 		li {
 			display: table-cell;
-			text-align: center;
-			list-style-type: none;
 
-			color: $uk-white;
-			border-left: 1px solid $uk-black;
+			a {
+				position: relative;
+				display: block;
+				margin: 0;
+
+				width: 100%;
+				height: 100%;
+
+				color: $uk-white;
+				text-align: center;
+				text-decoration: none;
+				text-transform: uppercase;
+
+				span {
+					position: relative;
+					z-index: 2;
+
+					line-height: $nav-height;
+					font-size: 24px;
+
+					font-family: $heading-font-stack;
+					@extend .delta;
+				}
+
+				&:after {
+					content: '';
+					display: block;
+
+					position: absolute;
+					z-index: 1;
+					top: 0;
+					left: 0;
+					right: 0;
+					bottom: 0;
+
+					@include transform(skewx(-$skew-angle));
+
+					background: $uk-blue;
+					//@include transition(background $trans-fast ease-in-out);
+				}
+
+				&:hover {
+					&:after {
+						background: $uk-red;
+					}
+				}
+			}
 		}
 	}
 }
