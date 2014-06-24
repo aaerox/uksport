@@ -18,6 +18,8 @@
     "bourbon": "~4.0.2",
     "neat": "~1.6.0",
     "normalize-css": "~3.0.1",
-    "typeplate-starter-kit": "~1.1.4"
+    "typeplate-starter-kit": "~1.1.4",
+    "packery": "~1.2.3",
+    "requirejs": "~2.1.14"
   }
 }

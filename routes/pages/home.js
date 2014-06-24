@@ -1,5 +1,34 @@
-var keystone = require('keystone'),
-	Event = keystone.list('Event');
+var _ = require('underscore'),
+	async = require('async'),
+	keystone = require('keystone'),
+	Event = keystone.list('Event'),
+	News = keystone.list('News'),
+	Funding = keystone.list('Funding');
+
+
+function loadEvents(callback) {
+	var q = Event.model.find().sort('date').limit(10);
+
+	q.exec(function(err, results) {
+		callback(err, results);
+	});
+}
+
+function loadNews(callback) {
+	var q = News.model.find().sort('date').limit(10);
+
+	q.exec(function(err, results) {
+		callback(err, results);
+	});
+}
+
+function loadFunding(callback) {
+	var q = Funding.model.find().sort('date').limit(10);
+
+	q.exec(function(err, results) {
+		callback(err, results);
+	});
+}
 
 
 exports = module.exports = function(req, res) {
@@ -9,16 +38,51 @@ exports = module.exports = function(req, res) {
 
 	// Init locals
 	locals.data = {
-		events: []
+		items: []
 	};
 
-	// Retrieve some events
 	view.on('init', function (next) {
-		var q = Event.model.find().sort('date').limit(10);
+		// Retrieve all the data we require
+		async.parallel({
+			events: loadEvents,
+			news: loadNews,
+			funding: loadFunding
+		}, function(err, results) {
+			
+			if (err) {
+				return next(err);
+			}
 
-		q.exec(function(err, results) {
-			locals.data.events = results;
-			next(err);
+			// Create an array of items
+			results.events.forEach(function (event) {
+				locals.data.items.push({
+					type: 'event',
+					date: event.date,
+					event: event
+				});
+			});
+
+			results.news.forEach(function (item) {
+				locals.data.items.push({
+					type: 'news',
+					date: item.date,
+					news: item
+				});
+			});
+
+			results.funding.forEach(function (item) {
+				locals.data.items.push({
+					type: 'funding',
+					date: item.date,
+					funding: item
+				});
+			});
+
+			locals.data.items = _.sortBy(locals.data.items, function (item) {
+				return item.date;
+			});
+			
+			next();
 		});
 	});
 

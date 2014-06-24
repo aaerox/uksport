@@ -19,7 +19,7 @@ module.exports = {
 	"use_rubysass": true,
 
 	// Are we using requirejs to build our js output?
-	"use_requirejs": false, 
+	"use_requirejs": true, 
 
 	// The name of the concatenated app file to generate. 
 	//'app' will generate app.js and app.min.js in production.
@@ -38,15 +38,16 @@ module.exports = {
 	// bower components that you require.
 	"bower_files": {
 		// Example
-		/*"modernizr": {
+		/*"packery": {
 			files: [ 
-				"modernizr.js" 
+				"dist/packery.pkgd.js" 
 			]
 		}*/
 	},
 
 	// Use this to specific bower components which should be included before anything else.
 	"bower_priorities": [
+		"requirejs.js",
 		"jquery.js"
 	]
 };

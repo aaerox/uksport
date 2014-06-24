@@ -61,7 +61,7 @@ keystone.set('routes', require('./routes'));
 // Configure the navigation bar in Keystone's Admin UI
 
 keystone.set('nav', {
-	'events': 'events'
+	'Stories': ['news', 'events', 'fundings']
 });
 
 // Build our page data
