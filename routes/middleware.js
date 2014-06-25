@@ -34,6 +34,9 @@ exports.initLocals = function(req, res, next) {
 	
 	locals.user = req.user;
 	
+	// Find the information pages
+	locals.infoPages = keystone.pages.router.pagePathTree[''].tree['info'].tree;
+
 	next();
 	
 };

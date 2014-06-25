@@ -3,11 +3,12 @@ var _ = require('underscore'),
 	keystone = require('keystone'),
 	Event = keystone.list('Event'),
 	News = keystone.list('News'),
-	Funding = keystone.list('Funding');
+	Funding = keystone.list('Funding'),
+	Post = keystone.list('Post');
 
 
 function loadEvents(callback) {
-	var q = Event.model.find().sort('date').limit(10);
+	var q = Event.model.find().sort('-date').limit(10);
 
 	q.exec(function(err, results) {
 		callback(err, results);
@@ -15,7 +16,7 @@ function loadEvents(callback) {
 }
 
 function loadNews(callback) {
-	var q = News.model.find().sort('date').limit(10);
+	var q = News.model.find().sort('-date').limit(10);
 
 	q.exec(function(err, results) {
 		callback(err, results);
@@ -23,13 +24,20 @@ function loadNews(callback) {
 }
 
 function loadFunding(callback) {
-	var q = Funding.model.find().sort('date').limit(10);
+	var q = Funding.model.find().sort('-date').limit(10);
 
 	q.exec(function(err, results) {
 		callback(err, results);
 	});
 }
 
+function loadBlog(callback) {
+	var q = Post.model.find({ 'state': 'published' }).sort('-publishedDate').limit(2).populate('author');
+
+	q.exec(function(err, results) {
+		callback(err, results);
+	});
+}
 
 exports = module.exports = function(req, res) {
 	
@@ -38,7 +46,8 @@ exports = module.exports = function(req, res) {
 
 	// Init locals
 	locals.data = {
-		items: []
+		items: [],
+		blogPosts: []
 	};
 
 	view.on('init', function (next) {
@@ -46,7 +55,8 @@ exports = module.exports = function(req, res) {
 		async.parallel({
 			events: loadEvents,
 			news: loadNews,
-			funding: loadFunding
+			funding: loadFunding,
+			blog: loadBlog
 		}, function(err, results) {
 			
 			if (err) {
@@ -79,9 +89,11 @@ exports = module.exports = function(req, res) {
 			});
 
 			locals.data.items = _.sortBy(locals.data.items, function (item) {
-				return item.date;
+				return -item.date;
 			});
 			
+			locals.data.blogPosts = results.blog;
+
 			next();
 		});
 	});

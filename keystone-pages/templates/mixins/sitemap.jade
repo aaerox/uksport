@@ -1,7 +1,7 @@
 mixin sitemap(node, first)
 	h3: a(href='/keystone/page' + node.path)= node.title
 	if node.children.length > 0
-		if first
+		if !first
 			ul.sitemap-parent
 				each child in node.children
 					li.sitemap-child

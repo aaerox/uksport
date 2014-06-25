@@ -22,4 +22,5 @@ block content
 							h3: a(href='/keystone/' + list.path)= list.label
 
 	h2.page-header Sitemap
-	+sitemap(sitemap)
+	.keystone-lists
+		+sitemap(sitemap, true)

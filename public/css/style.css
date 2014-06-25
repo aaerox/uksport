@@ -388,6 +388,25 @@ a {
     Neat grid settings
 ------------------------------------------------------*/
 /*----------------------------------------------------- 
+    Easy column setup
+------------------------------------------------------*/
+.col-big {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 65.88078%; }
+  .col-big:last-child {
+    margin-right: 0; }
+
+.col-small {
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 31.76157%; }
+  .col-small:last-child {
+    margin-right: 0; }
+
+/*----------------------------------------------------- 
     Reusable mixins
 ------------------------------------------------------*/
 /*----------------------------------------------------- 
@@ -507,7 +526,39 @@ header.header .logo {
           background: #d6002a; }
 
 .footer {
-  margin-bottom: 100px; }
+  padding-top: 30px;
+  padding-bottom: 30px;
+  background: #e9edf2; }
+  .footer h4 {
+    color: red;
+    text-transform: uppercase;
+    font-size: 19px; }
+  .footer .jobs {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 48.82117%; }
+    .footer .jobs:last-child {
+      margin-right: 0; }
+  .footer .contact {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 23.23176%; }
+    .footer .contact:last-child {
+      margin-right: 0; }
+    .footer .contact p {
+      margin-bottom: 5px; }
+  .footer .information {
+    float: left;
+    display: block;
+    margin-right: 2.35765%;
+    width: 23.23176%; }
+    .footer .information:last-child {
+      margin-right: 0; }
+    .footer .information a {
+      display: block;
+      color: #333333; }
 
 /*----------------------------------------------------- 
     Reusable modules
@@ -599,22 +650,34 @@ header.header .logo {
     right: 80px;
     text-align: right; }
 
+.blog {
+  margin-bottom: 60px; }
+  .blog h2 {
+    color: #d6002a; }
+  .blog .posts {
+    margin: 0;
+    padding: 0; }
+    .blog .posts .post {
+      margin-bottom: 20px;
+      border-bottom: 1px solid #d5d9e0; }
+      .blog .posts .post:last-child {
+        margin-bottom: 0;
+        border: none; }
+  .blog .title, .blog .author {
+    font-size: 12px;
+    line-height: 12px;
+    text-transform: uppercase;
+    font-family: "Knockout HTF32-JuniorCruiserwt", Helvetica, Arial, sans-serif;
+    margin: 0;
+    color: #164785; }
+  .blog .author {
+    color: #7dadea; }
+
 /*----------------------------------------------------- 
     Bespoke modules
 ------------------------------------------------------*/
 .event-listing {
-  	/*@include display(flex);
-  	@include flex-flow(row wrap);
-  
-  	@include align-items(center);
-  	@include justify-content(flex-start);
-  
-  	.event {
-  		margin-right: 25px;
-  		margin-bottom: 50px;
-  		//margin: auto;
-  		//margin-bottom: 50px;
-  	}*/ }
+  margin-bottom: 50px; }
 
 .what-we-do {
   margin: 60px auto; }

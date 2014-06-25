@@ -1,3 +1,32 @@
 .footer {
-	margin-bottom: 100px;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	background: $uk-gray;
+
+	h4 {
+		color: red;
+		text-transform: uppercase;
+		font-size: 19px;
+	}
+
+	.jobs {
+		@include span-columns(6 of 12);
+	}
+
+	.contact {
+		@include span-columns(3 of 12);
+
+		p {
+			margin-bottom: 5px;
+		}
+	}
+
+	.information {
+		@include span-columns(3 of 12);
+
+		a {
+			display: block;
+			color: $uk-text;
+		}
+	}
 }

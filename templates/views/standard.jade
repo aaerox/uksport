@@ -3,6 +3,7 @@ extends ../layouts/default
 block content
 	if page.banner.title
 		+page-banner(page.banner.title, page.banner.subtitle, page.banner.image.url, page.banner.blurb)
-	.content
-		h2= page.body.subtitle
-		!= page.body.text
+	.container
+		.content
+			h2= page.body.subtitle
+			!= page.body.text
