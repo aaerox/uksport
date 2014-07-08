@@ -1,16 +1,3 @@
 footer.footer
 	.container
-		.jobs
-			img(src="/img/jobs.jpg")
-		.contact
-			h4 Contact
-			p UK Sport
-			p 40 Bernard Street
-			p London
-			p WC1N 1ST
 
-		.information
-			h4 Information
-			each node in infoPages
-				if node.page.page.isNav
-					a(href='/info/' + node.page.page.path): span= node.page.page.title

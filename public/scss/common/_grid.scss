@@ -21,14 +21,3 @@ $border-box-sizing: true;
 $default-feature: min-width; 
 $default-layout-direction: LTR !default;
 
-
-/*----------------------------------------------------- 
-    Easy column setup
-------------------------------------------------------*/
-.col-big {
-	@include span-columns(8 of 12);
-}
-
-.col-small {
-	@include span-columns(4 of 12);
-}

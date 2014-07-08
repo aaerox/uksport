@@ -1,24 +1,3 @@
 header.header {
 
-	.logo {
-		@include span-columns(4 of 12);
-		@include omega();
-		@include collapse-column();
-
-		height: 83px;
-		
-		margin: 40px 0;
-
-		text-indent: -9999px;
-
-		a {
-			display: block;
-			background: url(/img/logo.png) no-repeat 0px 0px;
-
-			width: 165px;
-			height: 83px;
-
-			margin-left: $element-spacing;
-		}
-	}
 }

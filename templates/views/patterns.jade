@@ -1,0 +1,12 @@
+extends ../layouts/default
+
+block content
+	.container
+		ul.designs(data-count="#{count}")
+			if locals.useStamps
+				li.design.stamp.stamp-main 
+					h1 Repeat</br>X</br>Repeat</br>Y
+				li.design.stamp.stamp-mail 
+					h1 Send us your pattern
+			each design in designs
+				li.design(style="background: url(" + design.imageUrl + ") repeat;", data-id=design.id)

@@ -27,7 +27,7 @@ module.exports = {
 	
 	// If you want additional javascript added to your single app file, specify your scripts folder location.
 	// Don't make this the same as your js_folder as that's just for output, not working code.
-	//"javascript_appfolder": "public/scripts",
+	"javascript_appfolder": "public/scripts",
 
 	// Set to false to avoid using bower altogether. This will speed up cycle a decent amount.
 	// Bower will copy all your required .css and .js files into vendor.css and vendor.js.

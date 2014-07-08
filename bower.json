@@ -1,11 +1,11 @@
 {
-  "name": "UKSport",
-  "version": "0.0.0",
+  "name": "repeatxy",
+  "version": "0.0.1",
   "homepage": "",
   "authors": [
-    "You <email@gmail.com>"
+    "Jon Daly <aaerox@gmail.com>"
   ],
-  "description": "My first cycle website",
+  "description": "Copious amounts of repeating illustrations!",
   "license": "MIT",
   "private": true,
   "ignore": [
@@ -14,12 +14,12 @@
     "bower_components"
   ],
   "dependencies": {
+    "requirejs": "~2.1.14",
     "jquery": "~1.11.0",
     "bourbon": "~4.0.2",
     "neat": "~1.6.0",
     "normalize-css": "~3.0.1",
-    "typeplate-starter-kit": "~1.1.4",
-    "packery": "~1.2.3",
-    "requirejs": "~2.1.14"
+    "skrollr": "~0.6.21",
+    "imagesloaded": "~3.1.4"
   }
 }

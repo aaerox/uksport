@@ -12,8 +12,8 @@ var keystonePages = require('./keystone-pages');
 
 keystone.init({
 	
-	'name': 'UK Sport',
-	'brand': 'UK Sport',
+	'name': 'Repeat X Repeat Y',
+	'brand': 'RepeatXY',
 	
 	'static': 'public',
 	'favicon': 'public/favicon.ico',
@@ -26,7 +26,7 @@ keystone.init({
 	'session': true,
 	'auth': true,
 	'user model': 'User',
-	'cookie secret': '.,OTT||;Dq@,54W_z`_f)E,;"K0="/t-S~)X!O<-PCO~/ZO2[=m5J&&6X8|3(a4('
+	'cookie secret': '.,OTT||;Dq@,54SLFL_f)E,;"K0="/t-S~)XGK%OTCO~/ZO2[=m5J&&6X8|3(a4('
 	
 });
 
@@ -61,8 +61,8 @@ keystone.set('routes', require('./routes'));
 // Configure the navigation bar in Keystone's Admin UI
 
 keystone.set('nav', {
-	'Stories': ['news', 'events', 'fundings'],
-	'Blog': ['posts']
+	//'Stories': ['news', 'events', 'fundings'],
+	//'Blog': ['posts']
 });
 
 // Build our page data

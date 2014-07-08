@@ -1,0 +1,78 @@
+.designs
+{
+	margin: 40px auto;
+	padding: 0;
+}
+
+.design
+{
+	position: relative;
+	z-index: 4;
+
+	cursor: pointer;
+
+	width: 200px;
+	height: 200px;
+
+	display: block;
+	overflow: hidden;
+
+	//opacity: 0;
+
+	margin-bottom: 15px;
+
+	@include transition-property(transform, opacity);
+	@include transition-duration(0.65s);
+	@include transition-timing-function(ease);
+
+	//@include transform(translateY(200px));
+
+	&.fullscreen {
+		cursor: default;
+	}
+
+	&.animate {
+		@include transform(translateY(0));
+		opacity: 1;
+	}
+}
+
+.stamp {
+	border: 100px solid;
+	overflow: visible;
+
+	h1 {
+		position: absolute;
+		top: -100px;
+		left: -100px;
+
+		margin: 10px;
+
+		text-transform: uppercase;
+	}
+
+	@include user-select(none);
+	cursor: default;
+}
+
+.stamp-main {
+	border-top-color: rgb(253, 234, 201);
+	border-left-color: rgb(135, 183, 205);
+	border-bottom-color: rgb(233, 96, 60);
+	border-right-color: rgb(250, 210, 63);
+
+	h1 {
+		color: rgb(49, 87, 136);
+	}
+}
+
+.stamp-mail {
+	border-top-color: rgb(250, 210, 63);
+	border-left-color: rgb(253, 234, 201);
+	border-bottom-color: rgb(253, 234, 201);
+	border-right-color: rgb(253, 234, 201);
+
+	h1 {
+		color: rgb(222, 104, 40);
+	}
+}

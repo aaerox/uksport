@@ -1,7 +1,7 @@
 ###--------------------------------------------------- 
 		Handles the events listing
 ---------------------------------------------------###
-define "component/event-listing", ["packery/packery"], (Packery) ->
+define "component/event-listing", [], () ->
 
 	class EventListing
 

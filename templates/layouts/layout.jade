@@ -9,11 +9,15 @@ html
 		meta(name="viewport", content="width=device-width, initial-scale=1.0")
 		meta(http-equiv="X-UA-Compatible" content="IE=edge")
 
-		title= title || 'UK Sport'
+		title= title || 'Repeatxy'
 		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
 
-		link(href="/css/vendor.css", rel="stylesheet")
-		link(href="/css/style.css", rel="stylesheet")
+		if env == "development" 
+			link(href="/css/vendor.css", rel="stylesheet")
+			link(href="/css/style.css", rel="stylesheet")
+		else
+			link(href="/css/vendor.min.css", rel="stylesheet")
+			link(href="/css/style.min.css", rel="stylesheet")
 
 		//- This file provides the default styling for the KeystoneJS Content Editor
 		if user && user.canAccessKeystone
@@ -38,7 +42,10 @@ html
 		block layout
 
 		//- JAVASCRIPT
-		script(data-main='main', src='/js/app.js')
+		if env == "development"
+			script(data-main='main', src='/js/app.js')
+		else
+			script(data-main='main', src='/js/app.min.js')
 
 		block js
 
